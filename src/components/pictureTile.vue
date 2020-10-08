@@ -1,8 +1,8 @@
 <template>
   <v-card>
       <v-img 
-        :src="`https://picsum.photos/500/300?image=${id * 5 + 10}`"
-        :lazy-src="`https://picsum.photos/10/6?image=${id * 5 + 10}`"
+        :src="`https://picsum.photos/500/300?image=${id}`"
+        :lazy-src="`https://picsum.photos/10/6?image=${id}`"
         class="grey lighten-2"
         @click="showImage(id)"
       ></v-img>

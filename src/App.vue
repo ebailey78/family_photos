@@ -82,28 +82,29 @@
           justify="center"
           align="center"
         >
-          <template v-for="n in 48">
+          <template v-for="n in 384">
             <v-col cols=12 md=4 lg=3 xl=2 :key="n">
               <picture-tile :id="n" @showImage="showImage"></picture-tile>
             </v-col>
           </template>
         </v-row>
         <v-row>
-          <v-col cols=6 md=8 lg=6>
-            <v-dialog v-model="imageDialog">
-              <v-card>
-                <v-img 
-                  contain
-                  :src="`https://picsum.photos/1000/600?image=${selectedImageId * 5 + 10}`"
-                  :lazy-src="`https://picsum.photos/10/6?image=${selectedImageId * 5 + 10}`"
-                  class="grey lighten-2"
-                ></v-img>
-                <v-card-text>
-                  {{selectedImageId}}
-                </v-card-text>
-              </v-card>
-            </v-dialog>
-          </v-col>
+          <div class="text-center">
+          <v-dialog v-model="imageDialog" width="1024px">
+            <v-card>
+              <v-card-title>{{selectedImageId}}</v-card-title>
+              <v-img 
+                contain
+                :src="`https://picsum.photos/1000/600?image=${selectedImageId}`"
+                :lazy-src="`https://picsum.photos/10/6?image=${selectedImageId}`"
+                class="grey lighten-2"
+              ></v-img>
+              <v-card-text>
+                {{selectedImageId}}
+              </v-card-text>
+            </v-card>
+          </v-dialog>
+          </div>
         </v-row>
       </v-container>
     </v-main>
