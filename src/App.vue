@@ -1,32 +1,156 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app id="keep">
+    <v-app-bar
+      app
+      clipped-left
+      color="amber"
+    >
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <span class="title ml-3 mr-5">Family&nbsp;<span class="font-weight-light">Photos</span></span>
+      <v-text-field
+        solo-inverted
+        flat
+        hide-details
+        label="Search"
+        prepend-inner-icon="mdi-search"
+      ></v-text-field>
+
+      <v-spacer></v-spacer>
+    </v-app-bar>
+
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+      clipped
+      color="grey lighten-4"
+    >
+      <v-list
+        dense
+        class="grey lighten-4"
+      >
+        <template v-for="(item, i) in items">
+          <v-row
+            v-if="item.heading"
+            :key="i"
+            align="center"
+          >
+            <v-col cols="6">
+              <v-subheader v-if="item.heading">
+                {{ item.heading }}
+              </v-subheader>
+            </v-col>
+            <v-col
+              cols="6"
+              class="text-right"
+            >
+              <v-btn
+                small
+                text
+              >edit</v-btn>
+            </v-col>
+          </v-row>
+          <v-divider
+            v-else-if="item.divider"
+            :key="i"
+            dark
+            class="my-4"
+          ></v-divider>
+          <v-list-item
+            v-else
+            :key="i"
+            link
+          >
+            <v-list-item-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title class="grey--text">
+                {{ item.text }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-main>
+      <v-container
+        fluid
+        class="grey lighten-4 fill-height"
+      >
+        <v-row
+          justify="center"
+          align="center"
+        >
+          <template v-for="n in 48">
+            <v-col cols=12 md=4 lg=3 xl=2 :key="n">
+              <picture-tile :id="n" @showImage="showImage"></picture-tile>
+            </v-col>
+          </template>
+        </v-row>
+        <v-row>
+          <v-col cols=6 md=8 lg=6>
+            <v-dialog v-model="imageDialog">
+              <v-card>
+                <v-img 
+                  contain
+                  :src="`https://picsum.photos/1000/600?image=${selectedImageId * 5 + 10}`"
+                  :lazy-src="`https://picsum.photos/10/6?image=${selectedImageId * 5 + 10}`"
+                  class="grey lighten-2"
+                ></v-img>
+                <v-card-text>
+                  {{selectedImageId}}
+                </v-card-text>
+              </v-card>
+            </v-dialog>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
 
-#nav {
-  padding: 30px;
+  import pictureTile from "./components/pictureTile.vue"
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+  export default {
+    props: {
+      source: String,
+    },
+    components: {pictureTile},
+    data: () => ({
+      drawer: false,
+      imageDialog: false,
+      selectedImageId: null,
+      items: [
+        { icon: 'mdi-lightbulb_outline', text: 'Notes' },
+        { icon: 'mdi-touch_app', text: 'Reminders' },
+        { divider: true },
+        { heading: 'Labels' },
+        { icon: 'mdi-add', text: 'Create new label' },
+        { divider: true },
+        { icon: 'mdi-archive', text: 'Archive' },
+        { icon: 'mdi-delete', text: 'Trash' },
+        { divider: true },
+        { icon: 'mdi-settings', text: 'Settings' },
+        { icon: 'mdi-chat_bubble', text: 'Trash' },
+        { icon: 'mdi-help', text: 'Help' },
+        { icon: 'mdi-phonelink', text: 'App downloads' },
+        { icon: 'mdi-keyboard', text: 'Keyboard shortcuts' },
+      ],
+    }),
+    methods: {
+      showImage(id) {
+        this.selectedImageId = id
+        this.imageDialog = true
+      }
     }
   }
+</script>
+
+<style>
+#keep .v-navigation-drawer__border {
+  display: none
 }
 </style>
