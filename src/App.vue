@@ -82,7 +82,7 @@
           justify="center"
           align="center"
         >
-          <template v-for="n in 384">
+          <template v-for="n in 64">
             <v-col cols=12 md=4 lg=3 xl=2 :key="n">
               <picture-tile :id="n" @showImage="showImage"></picture-tile>
             </v-col>
@@ -90,7 +90,11 @@
         </v-row>
         <v-row>
           <div class="text-center">
-          <v-dialog v-model="imageDialog" width="1024px">
+          <v-dialog 
+            v-model="imageDialog" 
+            width="1000px"
+            persistent
+          >
             <v-card>
               <v-card-title>{{selectedImageId}}</v-card-title>
               <v-img 
@@ -99,9 +103,13 @@
                 :lazy-src="`https://picsum.photos/10/6?image=${selectedImageId}`"
                 class="grey lighten-2"
               ></v-img>
-              <v-card-text>
+              <v-card-text class="mt-4">
                 {{selectedImageId}}
               </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn @click="imageDialog=false">Close</v-btn>
+              </v-card-actions>
             </v-card>
           </v-dialog>
           </div>

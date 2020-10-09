@@ -16,4 +16,9 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  document.title = "Family Photos"
+  next()
+})
+
 export default router
